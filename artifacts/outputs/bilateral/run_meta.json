@@ -1,0 +1,25 @@
+{
+ "method": "bilateral",
+ "method_id": "bilateral",
+ "device": "cpu",
+ "hardware": "cpu:AMD Ryzen 5 3500U with Radeon Vega Mobile Gfx|gpu:none",
+ "loss_variant": "none",
+ "train_seed": null,
+ "parameter_config": {
+  "15": "sigma_r_255=35;sigma_s_px=1.5",
+  "25": "sigma_r_255=75;sigma_s_px=1.5",
+  "50": "sigma_r_255=170;sigma_s_px=2"
+ },
+ "environment": {
+  "python": "3.14.4",
+  "numpy": "2.5.4",
+  "scipy": "1.18.1",
+  "scikit-image": "0.26.0",
+  "cpu": "AMD Ryzen 5 3500U with Radeon Vega Mobile Gfx",
+  "git_commit": "bc04300",
+  "torch": "2.15.0+cu132",
+  "cuda": null,
+  "gpu": null,
+  "hardware": "cpu:AMD Ryzen 5 3500U with Radeon Vega Mobile Gfx|gpu:none"
+ }
+}

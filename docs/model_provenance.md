@@ -6,6 +6,8 @@ copy the final table here.
 | model_id | architecture | variant | seed | params | steps | lambda | best step | val PSNR | GPU | checkpoint sha256 |
 |---|---|---|---|---|---|---|---|---|---|---|
 
+Current code measurement: U-Net has **482,449 parameters** before training. Add per-run rows only after checkpoints and validation metadata exist.
+
 Architectures. DnCNN: Zhang et al. 2017 (arXiv:1608.03167), compact variant, depth 17, width 64, BatchNorm.
 U-Net: Ronneberger et al. 2015 (arXiv:1505.04597), a biomedical-segmentation architecture adapted by us
 for denoising (3 downsamplings, widths 16/32/64/128, GroupNorm, residual head); not evaluated for

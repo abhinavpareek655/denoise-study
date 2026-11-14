@@ -1046,6 +1046,12 @@ README.md); `common/stats.py` has `bootstrap_ci`, `paired_diff`, `seed_spread`, 
 They call only `python -m scripts.*`, `pytest` and `common.*`; they contain no experiment logic. Commands and flags are taken from the README stage table
 and Section 24; the notebooks print `--help` for `scripts.tune`, `scripts.train` and `scripts.infer` so any flag mismatch shows up immediately.
 
+**Local progress check (2026-11-14):** the full repository test suite passes locally (one test skipped); bilateral and TV frozen choices match their
+calibration-grid maxima and are interior for every varied parameter. Local test inference produces 180 valid PNGs plus 180 runtime rows per method.
+The U-Net parameter count is 482,449. No U-Net checkpoints or scored results exist yet. The available Person A BSD68 folder does not match the hashes
+in this repository's manifest, so clean-image evaluation, failure galleries, and result plots must wait for the manifest-matched BSD68 dataset. A's
+BSD400 files do match and are suitable for B2 training.
+
 Order of work for B (each step needs the previous one):
 
 | # | Step | Notebook | Needs | Output / where it is recorded |
