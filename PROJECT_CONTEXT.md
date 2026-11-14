@@ -538,11 +538,11 @@ Both networks use the **same trainer** (`common/dl_train.py`), the same data pip
 | Setting | Proposed default |
 |---|---|
 | Batch size | 64 |
-| Steps (identical for both nets) | fixed budget, e.g. 30 000 steps (shrink transparently if Kaggle time requires) |
-| LR schedule | Adam lr 1e-3, halve at fixed step milestones (or cosine to 1e-5); same for both |
+| Steps (identical for both nets) | 20 000 steps, matching Person A's completed DnCNN runs |
+| LR schedule | Adam cosine decay from 1e-3 to 1e-6, matching Person A's completed runs |
 | Validation | every 1 000 steps, on the 20 validation images, full-size, fixed noisy realizations at sigma 15, 25, 50 (generated once with the Section 7.2 generator, saved to `artifacts/val_noisy/`) |
 | Checkpoint rule | best mean quantized PSNR over the 3 sigmas on the validation images; keep `best.pt` and `last.pt` |
-| Mixed precision | off for the main runs (document if on) |
+| Mixed precision | off for B's main runs; Person A's legacy runs used AMP (record this implementation difference) |
 | Gradient clipping | none unless instability appears (then for both) |
 | Checkpoint selection never uses | any BSD68 image |
 
@@ -786,6 +786,7 @@ Perona-Malik diffusion (7th method; already implemented in the course), median f
 
 | Date | Change | Who agreed |
 |---|---|---|
+| 2026-11-14 | B adopts A's completed-run budget (20,000 steps), pilot length (3,000), and cosine LR decay to 1e-6. A's pilot selected lambda 0.5, but A and B validation splits have no shared images; B will run its own validation-only pilot and agree on one shared lambda before G training. B keeps AMP off per this contract. | B |
 | 2026-11-14 | Person B Kaggle notebooks added (`notebooks/person_B/B1_cpu_prep.ipynb`, `B2_gpu_unet.ipynb`); Section 25.4 added (Person B status and next steps). Notebooks are thin wrappers over `scripts.*`; no FROZEN value changed; notebooks not yet executed on Kaggle | B (A to review) |
 | (today) | Initial version generated from Project Plan + Person B guide | , |
 | (today) | Repo scaffold built; manifest generated from real BSD68/BSD400; Section 25 added (file map, noise seed includes dataset code, rising-branch rule, TV/bilateral/NLM grids widened on calibration data) | , |
@@ -1030,8 +1031,8 @@ README.md); `common/stats.py` has `bootstrap_ci`, `paired_diff`, `seed_spread`, 
    non-NaN images and report how many images contributed.
 10. **Runtime:** measured by `scripts.infer` per image (GPU synchronised, model load excluded, transfer included). Treat these as raw timings; the
     careful interleaved benchmark with medians is A's notebook (Section 12, 24.7).
-11. **DL training steps/batch/lr** in `configs/train/train.yaml` are placeholders (30 000 steps, batch 64, lr 1e-3 with two decays) until the Kaggle
-    throughput test; both networks always share them.
+11. **DL training settings** in `configs/train/train.yaml` follow Person A's completed run budget (20 000 steps, batch 64, lr 1e-3 cosine decay to 1e-6);
+    both networks share steps and schedule. B's mixed precision remains off per Section 14.2.
 
 ### 25.3 Verification status of this scaffold
 - Executed and passing: manifest generation and validation, noise generation, mask thresholds, tuning for all four classical methods, inference, evaluation

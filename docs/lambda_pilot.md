@@ -1,5 +1,9 @@
 # Lambda pilot record (validation images only; grid 0.1, 0.5, 1.0)
 
+Person A's legacy protocol reports lambda 0.5 selected from its pilot. Its BSD400 validation split has no images in common with this
+repository's manifest, so treat 0.5 as a candidate, not as B's validation result. Run the U-Net pilot below on this repository's 20
+validation images before freezing the shared value with A.
+
 Raw rows are written by `scripts.train --pilot` to `artifacts/tuning/lambda_pilot_{arch}.csv`.
 Selection criterion = the checkpoint criterion (best mean quantized PSNR over sigma 15/25/50 on the 20
 validation images); also note validation gradient error. Pilot steps: see `configs/train/train.yaml`.

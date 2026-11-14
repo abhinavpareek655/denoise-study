@@ -107,7 +107,7 @@ def test_pairing_fingerprint_and_resume(tmp_path):
 
     assert stream_fingerprint(0, (380, 1, 180, 180), 4) == stream_fingerprint(0, (380, 1, 180, 180), 4)
     assert stream_fingerprint(0, (380, 1, 180, 180), 4) != stream_fingerprint(1, (380, 1, 180, 180), 4)
-    cfg = {"steps": 4, "batch_size": 2, "lr": 1e-3, "lr_milestones": [0.5], "lr_gamma": 0.5, "val_every": 2}
+    cfg = {"steps": 4, "batch_size": 2, "lr": 1e-3, "min_lr": 1e-6, "val_every": 2}
     kw = dict(manifest=get_manifest(), data_root=paths.data_root(), device="cpu", arch_cfg={"depth": 3, "width": 8})
     full = train("dncnn", "G", 0, cfg, 0.5, tmp_path / "full", **kw)
     paused = train("dncnn", "G", 0, cfg, 0.5, tmp_path / "res", max_hours=1e-9, **kw)

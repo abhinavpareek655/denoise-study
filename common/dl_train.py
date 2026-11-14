@@ -9,6 +9,7 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import math
 import time
 from pathlib import Path
 
@@ -132,8 +133,9 @@ def try_resume(path: Path, model, opt, gens):
     return int(ck["step"]), ck["best"], ck["log"]
 
 
-def lr_at(step: int, base_lr: float, steps: int, milestones: list[float], gamma: float) -> float:
-    return base_lr * gamma ** sum(step >= int(m * steps) for m in milestones)
+def lr_at(step: int, base_lr: float, min_lr: float, steps: int) -> float:
+    progress = min(max(step, 0), steps) / steps
+    return min_lr + 0.5 * (base_lr - min_lr) * (1.0 + math.cos(math.pi * progress))
 
 
 # ---------------------------------------------------------------------------- main loop
@@ -168,7 +170,7 @@ def train(arch: str, variant: str, train_seed: int, cfg: dict, lam: float, out_d
     run_steps = 0
     while step < steps:
         for g in opt.param_groups:
-            g["lr"] = lr_at(step, float(cfg["lr"]), steps, list(cfg["lr_milestones"]), float(cfg["lr_gamma"]))
+            g["lr"] = lr_at(step, float(cfg["lr"]), float(cfg["min_lr"]), steps)
         clean = sampler.next_batch(bs).to(device)
         noisy, _sigma = add_awgn_torch(clean, gens["noise"])      # sigma never reaches the model
         restored = noisy - model(noisy)
@@ -209,7 +211,7 @@ def train(arch: str, variant: str, train_seed: int, cfg: dict, lam: float, out_d
     meta = {"model_id": out_dir.name, "arch": arch, "arch_cfg": arch_cfg or {}, "loss_variant": variant,
             "lambda": lam if variant == "G" else None, "train_seed": train_seed, "status": status,
             "step_reached": step, "steps_planned": steps, "batch_size": bs, "lr": cfg["lr"],
-            "lr_milestones": list(cfg["lr_milestones"]), "lr_gamma": cfg["lr_gamma"],
+            "lr_schedule": "cosine", "min_lr": cfg["min_lr"],
             "params": n_params, "patch_size": P.PATCH_SIZE, "train_noise_sigma_255": list(P.TRAIN_SIGMA_RANGE_255),
             "blind": True, "input_normalization": "float32 [0,1]; noisy-image rule identical to test",
             "pad_multiple": pad_multiple(arch), "best": best, "data_stream_fingerprint": fp,
