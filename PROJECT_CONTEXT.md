@@ -786,6 +786,7 @@ Perona-Malik diffusion (7th method; already implemented in the course), median f
 
 | Date | Change | Who agreed |
 |---|---|---|
+| 2026-11-14 | Person B Kaggle notebooks added (`notebooks/person_B/B1_cpu_prep.ipynb`, `B2_gpu_unet.ipynb`); Section 25.4 added (Person B status and next steps). Notebooks are thin wrappers over `scripts.*`; no FROZEN value changed; notebooks not yet executed on Kaggle | B (A to review) |
 | (today) | Initial version generated from Project Plan + Person B guide | , |
 | (today) | Repo scaffold built; manifest generated from real BSD68/BSD400; Section 25 added (file map, noise seed includes dataset code, rising-branch rule, TV/bilateral/NLM grids widened on calibration data) | , |
 
@@ -994,7 +995,8 @@ tests/     conftest.py test_noise test_manifest test_metrics test_regions test_m
 docs/      kaggle_setup.md reference_run.md adaptation_card.md lambda_pilot.md model_provenance.md theory_A.md theory_B.md
 artifacts/ manifest.json (committed, FROZEN)  masks/thresholds.json + pixel_counts.csv (committed)
            noisy/ outputs/ checkpoints/ tuning/ results/ logs/ figures/   (generated; big binaries git-ignored)
-notebooks/ person_A/ person_B/  (optional thin notebook exports)
+notebooks/ person_A/ person_B/  (thin notebook exports)
+           person_B/ B1_cpu_prep.ipynb  B2_gpu_unet.ipynb
 ```
 
 **Notebook-only (deliberately not in the repo):** all plots (1 to 7), the failure gallery, the runtime benchmarking
@@ -1036,3 +1038,30 @@ README.md); `common/stats.py` has `bootstrap_ci`, `paired_diff`, `seed_spread`, 
   with integrity checks (900 result rows, column order exact), equal-smoothing sweep, and 31 tests. See `docs/reference_run.md` for numbers to reproduce.
 - **Not executed (torch unavailable where this was built):** `models/`, `common/losses.py`, `common/dl_infer.py`, `common/dl_train.py`, `methods/dl_common.py`,
   `scripts/train.py`, `scripts/infer.py` for DL methods, and the torch tests. First action on Kaggle: `python -m pytest`, then the `--bench` test.
+
+### 25.4 Person B status and next steps (updated 2026-11-14)
+
+**Written, not yet executed on Kaggle:** `notebooks/person_B/B1_cpu_prep.ipynb` (CPU session) and `B2_gpu_unet.ipynb` (single-GPU session).
+They call only `python -m scripts.*`, `pytest` and `common.*`; they contain no experiment logic. Commands and flags are taken from the README stage table
+and Section 24; the notebooks print `--help` for `scripts.tune`, `scripts.train` and `scripts.infer` so any flag mismatch shows up immediately.
+
+Order of work for B (each step needs the previous one):
+
+| # | Step | Notebook | Needs | Output / where it is recorded |
+|---|---|---|---|---|
+| 1 | `python -m pytest` incl. torch tests (CPU) | B1 | repo, `bsd-data` | fix failures in the repo and push; do not patch inside Kaggle |
+| 2 | Real parameter counts (expected U-Net 482 449, DnCNN ~556 096) | B1 | step 1 | `docs/model_provenance.md` |
+| 3 | Verify manifest counts 8/60/380/20, raw-image hashes, noisy PNGs (identical to A's `denoise-shared`), committed masks reproduce | B1 | A's `denoise-shared` version (for the cross-check) | log; record manifest hash |
+| 4 | Tune **bilateral** and **TV** on the 8 calibration images, per sigma; optimum must be interior | B1 | step 3 | `artifacts/tuning/{bilateral,tv}_frozen.json` + grid CSVs; commit; Section 22 line |
+| 5 | Throughput test `--bench 200` for the U-Net (GPU); A does the same for DnCNN | B2 | step 1 | steps/s; **one shared step budget** written to `configs/train/train.yaml` (Section 25.2 item 11) |
+| 6 | Lambda pilot, U-Net, G with 0.1 / 0.5 / 1.0, validation only | B2 | step 5 | `docs/lambda_pilot.md`; then `LAMBDA_FROZEN` set **once for both networks** with A, Section 22 |
+| 7 | Train U-Net P and G, seeds 0 and 1 (4 runs; resumable, `--max_hours` guard) | B2 | step 6 | `denoise-B-results` dataset version; `meta.json` per model |
+| 8 | Inference for classical (B's two methods) and `unet_*` on test images | B1 / B2 | steps 4, 7 | `artifacts/outputs/` |
+| 9 | Evaluate (merge A's outputs), equal smoothing, failure gallery, plots 1, 5, 7 | later notebook | A's results version pinned | Days 8 to 12 |
+
+Open coordination items (not decided yet, **[PROPOSED]**):
+- Rule for choosing `LAMBDA_FROZEN` from two separate pilots (U-Net by B, DnCNN by A): write the rule down in Section 22 **before** either pilot finishes
+  (e.g. the value with the best mean validation criterion averaged over both networks), so it cannot be chosen after seeing results.
+- Which commit hash and which `denoise-shared` / `bsd-data` versions both people pin for final runs.
+- Code changes (configs, `protocol.py`) are made in the repo and pushed; Kaggle sessions re-clone the pinned commit. Edits made inside `/kaggle/working` are lost.
+

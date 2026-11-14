@@ -42,6 +42,14 @@ After the lambda pilot, set `LAMBDA_FROZEN` in `common/protocol.py` once (both n
 log it in `PROJECT_CONTEXT.md` Section 22. Before long runs, edit `configs/train/train.yaml` with the
 measured step budget (same for both networks).
 
+## Notebooks (thin, optional exports)
+- `notebooks/person_B/B1_cpu_prep.ipynb` - CPU session: bootstrap, environment log, `pytest`, parameter counts, input/hash checks,
+  mask reproducibility check, tune bilateral and TV (calibration only).
+- `notebooks/person_B/B2_gpu_unet.ipynb` - single-GPU session: choose jobs with `RUN` (`tests`, `bench`, `pilot`, `train_<P|G>_s<0|1>`,
+  `infer_...`); restores checkpoints from an attached `denoise-B-results` version so training resumes.
+- Both clone this repo, set `DENOISE_DATA`, and call `scripts.*`; edit the config cell (repo URL, pinned commit) before running.
+  Details and the order of work: `PROJECT_CONTEXT.md` Section 25.4.
+
 ## Status of this scaffold
 - Manifest, region thresholds and pixel counts are generated from the real BSD68/BSD400 files.
 - Classical pipeline (noise, tuning, inference, evaluation, equal smoothing) was run end to end and
@@ -49,3 +57,4 @@ measured step budget (same for both networks).
 - Torch code (models, losses, trainer, DL wrappers, `scripts.train`) was written and statically
   checked but **not executed** where this scaffold was built (no torch there). First action on Kaggle:
   `python -m pytest` (runs the torch tests incl. resume test), then the `--bench` throughput test.
+- Person B notebooks (B1, B2) are written but **not yet run on Kaggle**; their first run is the first execution of the torch code.
