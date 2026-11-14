@@ -1,0 +1,7 @@
+method: bilateral
+inject_sigma: false
+fixed: {}                      # radius_px defaults to ceil(3 * sigma_s_px)
+grid:
+  15: {sigma_s_px: [1.0, 1.5, 2.0, 3.0], sigma_r_255: [15, 25, 35, 50, 70]}
+  25: {sigma_s_px: [1.0, 1.5, 2.0, 3.0], sigma_r_255: [40, 55, 75, 100, 130]}
+  50: {sigma_s_px: [1.5, 2.0, 3.0, 4.0], sigma_r_255: [75, 100, 130, 170, 220]}

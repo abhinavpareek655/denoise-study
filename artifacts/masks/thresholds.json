@@ -1,0 +1,45 @@
+{
+ "default": {
+  "grad_smooth": 0.008727212527841643,
+  "std_smooth": 0.026975421643376706,
+  "grad_edge": 0.059738787617757465,
+  "std_texture": 0.052696889909743846,
+  "pcts": {
+   "smooth": 40,
+   "edge": 90,
+   "texture": 60
+  }
+ },
+ "low": {
+  "grad_smooth": 0.005951985682406885,
+  "std_smooth": 0.01918579988998057,
+  "grad_edge": 0.03737099135421041,
+  "std_texture": 0.03728856914169414,
+  "pcts": {
+   "smooth": 30,
+   "edge": 80,
+   "texture": 50
+  }
+ },
+ "high": {
+  "grad_smooth": 0.012414724820583218,
+  "std_smooth": 0.03728856914169414,
+  "grad_edge": 0.14524392521963045,
+  "std_texture": 0.07290938708463163,
+  "pcts": {
+   "smooth": 50,
+   "edge": 99,
+   "texture": 70
+  }
+ },
+ "fitted_on": [
+  "test027",
+  "test043",
+  "test049",
+  "test054",
+  "test056",
+  "test059",
+  "test060",
+  "test065"
+ ]
+}

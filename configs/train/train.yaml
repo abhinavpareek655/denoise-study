@@ -1,0 +1,14 @@
+# Shared DL budget: IDENTICAL for DnCNN and U-Net (frozen protocol: same steps, noise sampler,
+# validation images, checkpoint rule). Person A edits only `models.dncnn`, Person B only `models.unet`.
+# [OPEN] steps/batch/lr: replace after the throughput test (python -m scripts.train --bench 200 ...).
+steps: 30000
+batch_size: 64
+lr: 0.001
+lr_milestones: [0.5, 0.8]      # fractions of `steps` at which lr is multiplied by lr_gamma
+lr_gamma: 0.2
+val_every: 1000                # validation + last.pt + best.pt cadence (steps)
+pilot_steps: 5000              # short G runs for the lambda pilot (validation images only)
+max_hours: 8.5                 # stop guard so a Kaggle session never dies mid-write
+models:
+  dncnn: {depth: 17, width: 64}
+  unet: {widths: [16, 32, 64, 128], groups: 8}

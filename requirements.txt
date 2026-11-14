@@ -1,0 +1,10 @@
+# Documentation of versions used. Kaggle images already ship these; avoid pip install on Kaggle.
+numpy
+scipy
+scikit-image
+Pillow
+pandas
+PyYAML
+matplotlib
+torch
+pytest
