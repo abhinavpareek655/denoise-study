@@ -1,0 +1,65 @@
+{
+ "model_id": "unet_P_s1",
+ "arch": "unet",
+ "arch_cfg": {
+  "widths": [
+   16,
+   32,
+   64,
+   128
+  ],
+  "groups": 8
+ },
+ "loss_variant": "P",
+ "lambda": null,
+ "train_seed": 1,
+ "status": "done",
+ "step_reached": 20000,
+ "steps_planned": 20000,
+ "batch_size": 64,
+ "lr": 0.001,
+ "lr_schedule": "cosine",
+ "min_lr": 1e-06,
+ "params": 482449,
+ "patch_size": 64,
+ "train_noise_sigma_255": [
+  15.0,
+  50.0
+ ],
+ "blind": true,
+ "input_normalization": "float32 [0,1]; noisy-image rule identical to test",
+ "pad_multiple": 8,
+ "best": {
+  "psnr_mean": 27.938557191771306,
+  "step": 19000,
+  "grad_err_mean": 0.00938370336243128,
+  "psnr_by_sigma": {
+   "15": 30.41093415227466,
+   "25": 28.22747201565486,
+   "50": 25.1772654073844
+  }
+ },
+ "data_stream_fingerprint": "8a4dacb63c41a85c",
+ "seeds": {
+  "init": 4138587806,
+  "data": 308415658,
+  "noise": 2772727799
+ },
+ "manifest_images_sha256": "f52ced08cdccacac61c3c9813c63558732a5283e75886cb3d40501e4b1940bc7",
+ "checkpoint_sha256": "83d46df0e1f7b16e64d1bae880788d242fba52937e4d28b0ab3c13b1d6012ca2",
+ "checkpoint_rule": "best mean quantized PSNR over sigma 15/25/50 on the 20 validation images",
+ "source": "Ronneberger et al. 2015 (arXiv:1505.04597), architectural adaptation",
+ "environment": {
+  "python": "3.13.16",
+  "numpy": "2.1.3",
+  "scipy": "1.16.3",
+  "scikit-image": "0.25.2",
+  "cpu": "Intel(R) Xeon(R) CPU @ 2.00GHz",
+  "git_commit": "faf2da1",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "gpu": "Tesla T4",
+  "hardware": "cpu:Intel(R) Xeon(R) CPU @ 2.00GHz|gpu:Tesla T4"
+ },
+ "precision": "float32 (no AMP)"
+}
