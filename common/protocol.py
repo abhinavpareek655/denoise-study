@@ -23,7 +23,7 @@ PATCH_SIZE = 64
 TRAIN_SEEDS: tuple[int, ...] = (0, 1)
 LOSS_VARIANTS: tuple[str, ...] = ("P", "G")
 LAMBDA_GRID: tuple[float, ...] = (0.1, 0.5, 1.0)
-LAMBDA_FROZEN: float | None = None   # set ONCE after the validation-only pilot; same for both nets
+LAMBDA_FROZEN: float | None = 0.5    # A's selected shared value; confirm with A before final reporting
 
 # ---- Metrics --------------------------------------------------------------------------------
 SSIM_WIN_SIZE = 11

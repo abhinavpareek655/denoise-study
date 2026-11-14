@@ -786,6 +786,7 @@ Perona-Malik diffusion (7th method; already implemented in the course), median f
 
 | Date | Change | Who agreed |
 |---|---|---|
+| 2026-11-14 | Adopted `LAMBDA_FROZEN = 0.5` from A's documented pilot/final runs per B's instruction; recorded B's pilot values and disjoint validation-split caveat. A's confirmation is still required before final reporting. | B; A confirmation pending |
 | 2026-11-14 | B adopts A's completed-run budget (20,000 steps), pilot length (3,000), and cosine LR decay to 1e-6. A's pilot selected lambda 0.5, but A and B validation splits have no shared images; B will run its own validation-only pilot and agree on one shared lambda before G training. B keeps AMP off per this contract. | B |
 | 2026-11-14 | Person B Kaggle notebooks added (`notebooks/person_B/B1_cpu_prep.ipynb`, `B2_gpu_unet.ipynb`); Section 25.4 added (Person B status and next steps). Notebooks are thin wrappers over `scripts.*`; no FROZEN value changed; notebooks not yet executed on Kaggle | B (A to review) |
 | (today) | Initial version generated from Project Plan + Person B guide | , |
