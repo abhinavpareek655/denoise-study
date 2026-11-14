@@ -6,7 +6,6 @@ data/
 # large generated binaries (regenerate or publish as Kaggle dataset versions)
 artifacts/noisy/**/*.png
 artifacts/outputs/**/*.png
-artifacts/checkpoints/**/*.pt
 artifacts/masks/*.npz
 artifacts/figures/*
 !artifacts/**/.gitkeep

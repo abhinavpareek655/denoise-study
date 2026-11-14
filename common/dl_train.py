@@ -161,12 +161,15 @@ def train(arch: str, variant: str, train_seed: int, cfg: dict, lam: float, out_d
     fp = stream_fingerprint(train_seed, tuple(images.shape), bs)
 
     last, best_path = out_dir / "last.pt", out_dir / "best.pt"
-    step, best, log = (try_resume(last, model, opt, gens) if (resume and not bench)
+    log_path = out_dir / "train_log.csv"
+    should_resume = resume and not bench and last.is_file()
+    if not bench and not should_resume:
+        log_path.unlink(missing_ok=True)
+    step, best, log = (try_resume(last, model, opt, gens) if should_resume
                        else (0, {"psnr_mean": -1.0, "step": 0}, []))
     model.train()
     t0, status = time.time(), "done"
     val_every = int(cfg["val_every"])
-    log_path = out_dir / "train_log.csv"
     run_steps = 0
     while step < steps:
         for g in opt.param_groups:

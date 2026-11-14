@@ -109,7 +109,13 @@ def test_pairing_fingerprint_and_resume(tmp_path):
     assert stream_fingerprint(0, (380, 1, 180, 180), 4) != stream_fingerprint(1, (380, 1, 180, 180), 4)
     cfg = {"steps": 4, "batch_size": 2, "lr": 1e-3, "min_lr": 1e-6, "val_every": 2}
     kw = dict(manifest=get_manifest(), data_root=paths.data_root(), device="cpu", arch_cfg={"depth": 3, "width": 8})
-    full = train("dncnn", "G", 0, cfg, 0.5, tmp_path / "full", **kw)
+    full_dir = tmp_path / "full"
+    full_dir.mkdir()
+    stale_log = full_dir / "train_log.csv"
+    stale_log.write_text("stale cached run\n")
+    full = train("dncnn", "G", 0, cfg, 0.5, full_dir, **kw)
+    assert stale_log.read_text().startswith("step,")
+    assert "stale cached run" not in stale_log.read_text()
     paused = train("dncnn", "G", 0, cfg, 0.5, tmp_path / "res", max_hours=1e-9, **kw)
     assert paused["status"] == "paused" and paused["step"] == 2
     done = train("dncnn", "G", 0, cfg, 0.5, tmp_path / "res", **kw)
