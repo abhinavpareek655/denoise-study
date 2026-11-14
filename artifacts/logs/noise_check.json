@@ -1,0 +1,17 @@
+{
+ "noisy/sigma15": {
+  "n": 68,
+  "preclip_mean_avg": -0.004859251493827136,
+  "preclip_std_avg": 14.9940456655318
+ },
+ "noisy/sigma25": {
+  "n": 68,
+  "preclip_mean_avg": 0.000286534781570181,
+  "preclip_std_avg": 25.003240480670684
+ },
+ "noisy/sigma50": {
+  "n": 68,
+  "preclip_mean_avg": 0.018272312603409748,
+  "preclip_std_avg": 50.00287956098121
+ }
+}

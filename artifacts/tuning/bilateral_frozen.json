@@ -1,0 +1,41 @@
+{
+ "15": {
+  "config": {
+   "sigma_s_px": 1.5,
+   "sigma_r_255": 35.0
+  },
+  "parameter_config": "sigma_r_255=35;sigma_s_px=1.5",
+  "calibration_mean_psnr": 30.001896117499
+ },
+ "25": {
+  "config": {
+   "sigma_s_px": 1.5,
+   "sigma_r_255": 75.0
+  },
+  "parameter_config": "sigma_r_255=75;sigma_s_px=1.5",
+  "calibration_mean_psnr": 27.368796917416795
+ },
+ "50": {
+  "config": {
+   "sigma_s_px": 2.0,
+   "sigma_r_255": 170.0
+  },
+  "parameter_config": "sigma_r_255=170;sigma_s_px=2",
+  "calibration_mean_psnr": 24.2494065488668
+ },
+ "_meta": {
+  "method": "bilateral",
+  "tuned_on": [
+   "test027",
+   "test043",
+   "test049",
+   "test054",
+   "test056",
+   "test059",
+   "test060",
+   "test065"
+  ],
+  "objective": "mean quantized PSNR on calibration images",
+  "manifest_images_sha256": "f52ced08cdccacac61c3c9813c63558732a5283e75886cb3d40501e4b1940bc7"
+ }
+}

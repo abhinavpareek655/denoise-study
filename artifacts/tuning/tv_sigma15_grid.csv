@@ -1,0 +1,6 @@
+parameter_config,mean_psnr
+eps=0.0002;max_num_iter=200;weight=0.01,27.010023927882074
+eps=0.0002;max_num_iter=200;weight=0.02,28.917759484152164
+eps=0.0002;max_num_iter=200;weight=0.03,29.951076018821663
+eps=0.0002;max_num_iter=200;weight=0.04,30.208548628264634
+eps=0.0002;max_num_iter=200;weight=0.06,29.43140817024664

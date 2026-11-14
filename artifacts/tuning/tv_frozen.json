@@ -1,0 +1,44 @@
+{
+ "15": {
+  "config": {
+   "eps": 0.0002,
+   "max_num_iter": 200,
+   "weight": 0.04
+  },
+  "parameter_config": "eps=0.0002;max_num_iter=200;weight=0.04",
+  "calibration_mean_psnr": 30.208548628264634
+ },
+ "25": {
+  "config": {
+   "eps": 0.0002,
+   "max_num_iter": 200,
+   "weight": 0.08
+  },
+  "parameter_config": "eps=0.0002;max_num_iter=200;weight=0.08",
+  "calibration_mean_psnr": 27.780060561695443
+ },
+ "50": {
+  "config": {
+   "eps": 0.0002,
+   "max_num_iter": 200,
+   "weight": 0.15
+  },
+  "parameter_config": "eps=0.0002;max_num_iter=200;weight=0.15",
+  "calibration_mean_psnr": 24.69089507318897
+ },
+ "_meta": {
+  "method": "tv",
+  "tuned_on": [
+   "test027",
+   "test043",
+   "test049",
+   "test054",
+   "test056",
+   "test059",
+   "test060",
+   "test065"
+  ],
+  "objective": "mean quantized PSNR on calibration images",
+  "manifest_images_sha256": "f52ced08cdccacac61c3c9813c63558732a5283e75886cb3d40501e4b1940bc7"
+ }
+}
